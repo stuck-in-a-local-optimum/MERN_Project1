@@ -55,8 +55,8 @@ exports.signin=(req, res)=>{
     }
     //in signup we used .save method, here findOne
     User.findOne({email},(err, user)=>{  //findOne based on email that we have destructured //always return error or object itself
-        if(err){
-            res.status(400).json({
+        if(err || !user){
+            return res.status(400).json({
                 error:  "USER EMAIL DOESN'T EXIST" 
             })
         }
@@ -86,23 +86,25 @@ exports.signin=(req, res)=>{
 }
 
 exports.signout = (req, res)=>{  //this will export it from authentication file in routes
+    //line 76 we named the token as "token"
     res.clearCookie("token");  //clear the cookie whose name is token //we can use this method becuase of we have cookieParser!
     res.json({
         message: "user signout successfully"
     });
 };
 
-//protected routes
 
-exports.isSignedIn = expressJwt({
+//protected routes
+exports.isSignedIn = expressJwt({  //we imported it as expressJwt
     secret:process.env.SECRET,
-    userProperty:"auth"  //userProperty uses req para and puts an id to the req
+    userProperty:"auth"  //userProperty uses req para and puts an id to the req i.e this middleware put this auth to 'req'
+    //we didn'y use next keyword here because expressJwt already doing that for us
 })
 
 
 //custom middlewares 
 exports.isAuthenticated = (req, res, next)=>{  //its custom one so need next()
-    let checker = req.profile && req.auth && req.profile._id===req.auth._id;  //profile will be set from fontend
+    let checker = req.profile && req.auth && req.profile._id===req.auth._id;  //profile will be set from fontend //user should have a profile & should be signedin & id should match then he will be authenticated
     if(!checker){
         return res.status(403).json({
             ERROR:"ACCESS DENIED!"

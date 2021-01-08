@@ -43,6 +43,6 @@ signin);
 router.get("/signout", signout);
 
 router.get("/testRoute", isSignedIn,(req,res)=>{  ///isSignedIn as middleware  //not need to write "next" here because expressJwt already covered it for us
-    res.send("A protected route");
+    res.json(req.auth); //we have used auth as userProperty and set it as req parameter (sort of)
 });
 module.exports = router;   //throw all things that we are creating in this file outside of this file
