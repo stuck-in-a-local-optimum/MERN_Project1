@@ -19,15 +19,20 @@ var router = express.Router()
  
 const {signout, signup, signin, isSignedIn} = require("../controllers/authentication.js");  //go one folder back(..) and in controllers then in authentication.js and import signout method
 
+
+//creating the signup route (POST one!)
 router.post("/signup",
+        //check for fields that we want to validate!
+        //same as putting a middleware
 [
-    check("name").isLength({ min: 3 }).withMessage('must be at least 3 chars long'),
+    check("name").isLength({ min: 3 }).withMessage('name must be atleast 3 chars long'),
     check("email").isEmail().withMessage("email is required!"),
-    check("password").isLength({min:8}).withMessage("password should be atleast 8 char long")
+    check("password").isLength({min:8}).withMessage("password must be atleast 8 char long")
 ],
 signup);
 
 router.post("/signin",
+    //array fields we want to validate
 [
     check("email").isEmail().withMessage("email is required!"),
     check("password").isLength({min:8}).withMessage("password should be atleast 8 char long")

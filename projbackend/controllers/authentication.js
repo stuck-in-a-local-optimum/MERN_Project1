@@ -8,10 +8,15 @@ var expressJwt = require('express-jwt');
 
 const { validationResult } = require("express-validator");
 
+
+//export signup method for signup route
 exports.signup = (req,res)=>{
-    // console.log("REQ BODY", req.body);
+    // console.log("REQ BODY", req.body); 
     // res.json({
     //     message:"signup route works!"
+
+    
+    //follwing will populate the array of errors
     const errors = validationResult(req);
     
     if(!errors.isEmpty()){
@@ -19,15 +24,15 @@ exports.signup = (req,res)=>{
             error:errors.array()[0].msg
         })
     }
-    const user = new User(req.body);
-    user.save((ERROR, user)=>{
-        if(ERROR || !user){
-            return res.status(400).json({  //400 is status code for bad request
-                ERROR: "NOT abe to save user in DB"
+    const user = new User(req.body);  //creating a new user
+    user.save((err, user)=>{  //save the user in dataBase
+        if(err || !user){
+            return res.status(400).json({  //400: BAD REQUEST!
+                err: "NOT able to save user in DB"
             })
         }
         //res.json(user)  //else print entire user
-        res.json({  //but we want to throw some specific details only!
+        res.json({  //but we want to throw some specific details only to the user
             name:user.name,
             email:user.email,
             id:user._id
@@ -48,30 +53,30 @@ exports.signin=(req, res)=>{
             error:errors.array()[0].msg
         });
     }
-
-    User.findOne({email},(ERROR, user)=>{  //findOne based on email that we have destructured //always return error or object itself
-        if(ERROR){
+    //in signup we used .save method, here findOne
+    User.findOne({email},(err, user)=>{  //findOne based on email that we have destructured //always return error or object itself
+        if(err){
             res.status(400).json({
                 error:  "USER EMAIL DOESN'T EXIST" 
             })
         }
         //if user's email exist in  database then we gonna authenticate that his/her password correct or not
          if(!user.authenticate(password)) {
-             return res.status(401).json({
+             return res.status(401).json({ //return 'cause we don't want further execution if this err
                  error: "Email and password do not matched!"
              })
          }
          
          //if the user is authentic then let them sign in
 
-         //create token
+         //create a token
          const token = jwt.sign({ _id: user._id}, process.env.SECRET);
 
          //put token in user's cookie(cookie is info in key-value pair)
          res.cookie("token", token, {expire: new Date()+9999}); //named cookie as token and pass its value as token created above //with any kind of expiry date
         
 
-         //send response to front end
+         //send response to front end 
          const {_id, name, email, role}=user;   //destructuring the data
         return res.json({ token, user : {_id, name, role} }); //we want to send a token so that frontend application to stored it localStorage
 

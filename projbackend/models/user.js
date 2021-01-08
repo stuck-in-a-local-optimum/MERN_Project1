@@ -60,7 +60,7 @@ userSchema.virtual("password")  //virtual name is 'password'
         return this._password;  //returns the virtual field created!
     })
 
-userSchema.method={
+userSchema.methods={
 
     authenticate: function(plainPassword){
         return this.securePassword(plainPassword)===this.encry_password
