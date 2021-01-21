@@ -21,7 +21,7 @@ const {signout, signup, signin, isSignedIn} = require("../controllers/authentica
 
 
 //creating the signup route (POST one!)
-router.post("/signup",
+router.post("/signup", 
         //check for fields that we want to validate!
         //same as putting a middleware
 [

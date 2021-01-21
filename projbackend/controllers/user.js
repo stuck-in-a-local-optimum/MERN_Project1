@@ -16,7 +16,7 @@ exports.getUserById = (req, res, next, id)=>{  //as middleware //it works with p
             }
         //if user found
         req.profile = user;  //profile can also e named as user but it get confusing here
-        next();    
+        next();    //next is at correct place xD
 
 
     });
@@ -25,5 +25,5 @@ exports.getUserById = (req, res, next, id)=>{  //as middleware //it works with p
 
 exports.getUser = (req, res)=>{
     //TODO: get back here for password
-    return res.json(req.profile);
+    return res.json(req.profile);  //req.profile has been populated by above findById middleware
 };
