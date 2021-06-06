@@ -1,6 +1,6 @@
 const mongooose = require('mongoose')
 
-const categorySchema = new mongoose.Schema({
+const categorySchema = new mongoose.Schema({   //category->e.g summer collection
     name:{
         type: String,
         trim: true,
