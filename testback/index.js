@@ -1,6 +1,7 @@
+
 const express = require("express"); //imported  //explicitely said that we are using express
 
-const app = express();   //used express
+const app = express();   //used express`
 
 // const port = 3000   //number is totally on us
 
