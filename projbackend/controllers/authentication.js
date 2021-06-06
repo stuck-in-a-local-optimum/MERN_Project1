@@ -9,14 +9,14 @@ var expressJwt = require('express-jwt');
 const { validationResult } = require("express-validator");
 
 
-//export signup method for signup route
-exports.signup = (req,res)=>{
+//export(throw out) signup method for signup route so that we can use it in /routes/authentication.js file
+exports.signup = (req,res)=>{   
     // console.log("REQ BODY", req.body); 
     // res.json({
     //     message:"signup route works!"
 
     
-    //follwing will populate the array of errors
+    //following will populate the array of errors
     const errors = validationResult(req);
     
     if(!errors.isEmpty()){
@@ -24,14 +24,14 @@ exports.signup = (req,res)=>{
             error:errors.array()[0].msg
         })
     }
-    const user = new User(req.body);  //creating a new user
-    user.save((err, user)=>{  //save the user in dataBase
+    const user = new User(req.body);  //creating a new user based on the body of req i.e (when we are giving user data like name, age, email, password in postman)
+    user.save((err, user)=>{  //save the user in dataBase (since user object is exported by mongoose so we can use mongoose functions save for example)
         if(err || !user){
             return res.status(400).json({  //400: BAD REQUEST!
                 err: "NOT able to save user in DB"
             })
         }
-        //res.json(user)  //else print entire user
+        //res.json(user)  //else print entire user (NOT A GOOD IDEA)
         res.json({  //but we want to throw some specific details only to the user
             name:user.name,
             email:user.email,
@@ -61,7 +61,7 @@ exports.signin=(req, res)=>{
             })
         }
         //if user's email exist in  database then we gonna authenticate that his/her password correct or not
-         if(!user.authenticate(password)) {
+         if(!user.authenticate(password)) {  //password that we extracted aftere destructuring 
              return res.status(401).json({ //return 'cause we don't want further execution if this err
                  error: "Email and password do not matched!"
              })
@@ -124,3 +124,8 @@ exports.isAdmin = (req, res, next)=>{
     next();  //for revision,next responsible for transfereing the control from one middleware to another and from last middleware to sending response
     
 };
+
+
+
+
+
