@@ -1,7 +1,9 @@
 
 var mongoose = require('mongoose');
+
 const express = require('express');
 const app = express();
+
 require('dotenv').config();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -15,13 +17,13 @@ app.use(cors())
 
 
 //My Routes
-const authRoutes = require("./routes/authentication");
-const userRoutes = require("./routes/user");
+const authRoutes = require("./routes/authentication.js");
+const userRoutes = require("./routes/user.js");
 
 
 
 
-// mongoose.connect('mongodb://localhost/test', { useMongoClient: true }); this code do what below one do to connect with dbs
+// mongoose.connect('mongodb://localhost/test', { useMongoClient: true }); this code do what below one do to connect with db
 
 //CONNECTING TO DATABASE
 mongoose
