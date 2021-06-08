@@ -1,6 +1,6 @@
 const User = require('../models/user');  //user model imported
 
-const Order = require("../models/order.js")
+const Order = require("../models/order.js")  //Order model imported
 
 
 exports.getUserById = (req, res, next, id)=>{  //as middleware //it works with params and can find info based on 'id'

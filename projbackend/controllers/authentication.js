@@ -103,7 +103,7 @@ exports.isSignedIn = expressJwt({  //we imported it as expressJwt
 
 
 //custom middlewares 
-exports.isAuthenticated = (req, res, next)=>{  //its custom one so need next()
+exports.isAuthenticated = (req, res, next) => {  //its custom one so need next()
     let checker = req.profile && req.auth && req.profile._id==req.auth._id;  //profile will be set from fontend //user should have a profile & should be signedin & id should match then he will be authenticated
     if(!checker){
         return res.status(403).json({
@@ -114,6 +114,8 @@ exports.isAuthenticated = (req, res, next)=>{  //its custom one so need next()
             //here was an extra semi-colon
     
 }
+
+
 
 exports.isAdmin = (req, res, next)=>{ 
     if(req.profile.role===0){

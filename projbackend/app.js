@@ -19,6 +19,8 @@ app.use(cors())
 //My Routes
 const authRoutes = require("./routes/authentication.js");
 const userRoutes = require("./routes/user.js");
+const categoryRoutes = require("./routes/category.js");
+
 
 
 
@@ -40,6 +42,7 @@ mongoose
 //My Routes
 app.use("/api", authRoutes);  //we are prefixing everything with /api i.e we need to run localhost:8000/api/signout instead of localhost:8000/signout
 app.use("/api", userRoutes); 
+app.use("/api", categoryRoutes); 
 
 //PORT
 const port = process.env.PORT || 8000;  //here we require dotenv
