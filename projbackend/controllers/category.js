@@ -67,3 +67,21 @@ exports.updateCategory = (req, res) => {
         res.json(this.updateCategory);
     })
 }
+
+
+exports.removeCategory = (req, res) =>{
+    const category = req.category;
+
+    category.remove( (err, deletedCategory) =>{   //remove method from mongoose
+        if(err || ! deletedCategory){
+            return res.status(400).json({
+                error: "Failed to delete category"
+            });
+
+
+        }
+        res.json({
+            message: "successfully deleted"
+        })
+    })
+}
