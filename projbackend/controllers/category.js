@@ -52,3 +52,18 @@ exports.getAllCategory = (req, res) =>{
     })
 
 }
+
+exports.updateCategory = (req, res) => {
+    const category = req.category;   //we are able to grab this req.category because of the middleWare getCategoryById
+    category.name = req.body.name;  //updating the name
+
+    category.save( (err, updatedCategory) =>{
+        if(err || !updatedCategory){
+            return res.status(400).json({
+                error: "failed to update category"
+            })
+
+        }
+        res.json(this.updateCategory);
+    })
+}
