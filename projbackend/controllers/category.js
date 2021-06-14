@@ -5,13 +5,13 @@ const Category = require("../models/category");    //Category model imported
 exports.getCategoryById  = (req, res, next, id) =>{
 
     Category.findById(id).exec( (err, category) =>{
-        if(err || !cate){
+        if(err || !category){
             return res.status(400).json({
                 error: "Category not found in DB"
             })
         }
 
-        req.Category = category;
+        req.category = category;
         next();
     });
 };
@@ -64,7 +64,7 @@ exports.updateCategory = (req, res) => {
             })
 
         }
-        res.json(this.updateCategory);
+        res.json(updatedCategory);
     })
 }
 
