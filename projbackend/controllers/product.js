@@ -7,6 +7,7 @@ const _ = require("lodash")   // this '_' is for private stuffs in javaScript
 const fs = require("fs");  //fs (filesystem) allows us to work with the file system on our local pc, it comes by default with  node js so not need to install 
 const { purge } = require("../routes/authentication");
 const { sortBy } = require("lodash");
+const category = require("../models/category");
 
 
 
@@ -210,6 +211,47 @@ exports.updateProduct = (req, res) =>{
         })
 
         res.json(products)
+    }
+
+
+exports.getAllUniqueCategories = (req, res) =>{
+        Product.distinct("category", {}, (err, category) =>{
+            if(err){
+                return res.status(400).json({
+                    error: "No category found"
+                })
+            }
+            res.json(category);
+        })
+
+    }
+
+
+
+    //to update inventories (sold item & stock)
+    exports.updateStock = (req, res, next) =>{
+
+        let myOperations =  req.body.order.products.map( prod => {      //looping through each product in order
+            return {
+                updateOne: {                        //update each product individually in bulk
+                    filter: {_id: prod._id},            //find the product using filter
+                    //want to update(increment) two things -> stock, count
+                    update: {$inc: {stock: -prod.count, sold: +prod.count}}    //'count' will be provided by front-end   
+                }
+            }
+        })
+
+        //bulkWrite takes three parameters-> 1) the operations to be performed, 2) options, 3) a call back
+        Product.bulkwrite(myOperations, {}, (err, {} , (err, products) =>{  //no options as of now
+            if(err){
+                return res.status(400).json({
+                    error: "Bulk operations failed"
+                })
+            }
+            next();   //if no error, handover to next middleware
+        }))
+
+       
     }
     
     

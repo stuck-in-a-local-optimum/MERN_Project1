@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 
-const {getProductById, createProduct, getProduct, photo,deleteProduct,  updateProduct, getAllProducts} = require("../controllers/product.js")
+const {getProductById, createProduct, getProduct, photo,deleteProduct,  updateProduct, getAllProducts, getAllUniqueCategories} = require("../controllers/product.js")
 const {isSignedIn, isAuthenticated, isAdmin } = require("../controllers/authentication.js")
 const {getUserById} = require("../controllers/user.js");
 const { route } = require("./authentication.js");
@@ -39,7 +39,7 @@ router.put("/product/:productId/:userId", isSignedIn, isAuthenticated, isAdmin, 
 //listing routes
 router.get("/products", getAllProducts);   //no need the user to be signedIn
 
-
+router.get("products/categories", getAllUniqueCategories);
 
 
 module.exports = router;
