@@ -25,8 +25,13 @@ const orderSchema = new mongoose.Schema(
     transaction_id: {},
     amount: {type: Number},
     address: String,
+    status:{
+        type: String,
+        default: "Recieved",
+        enum: ["Cancelled", "Delivered", "Shipped", "Processing", "Recieved"]
+    },
     updated: Date,
-    user: {
+    user: { 
         type:ObjectId,
         ref: "User",   //same way that we did in category file  //this user will be populated by populate method in mongoose
     }
