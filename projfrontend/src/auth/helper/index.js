@@ -42,7 +42,7 @@ export const authenticate = (data, next)=>{
     }
 }
 
-export const signout = (next)=>{
+export const signout = (next)=>{ //we used signout as middleware so that we can get option to do a callback when user is signout(redirect the user)
     if( typeof window !== "undefined"){
         localStorage.removeItem("jwt") //remove the token
         next();
