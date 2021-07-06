@@ -30,14 +30,14 @@ const Signin = ()=>{
 }
 
 
-//TODO: to redirection
+//TODO: to redirection  //Update: TODO DONE!
 const performRedirect = () =>{
     if(didRedirect){
         if(user && user.role===1){
-            return <p>redirect to admin</p>
+            return <Redirect to="admin/dashboard" />;
         }
         else{
-           return <p>Redirect to user dashboard</p>
+           return <Redirect to="user/dashboard" />;
         }
 
     }
